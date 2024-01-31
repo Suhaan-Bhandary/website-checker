@@ -7,7 +7,6 @@ import (
 
 	"github.com/Suhaan-Bhandary/website-checker/db"
 	"github.com/Suhaan-Bhandary/website-checker/types"
-	"github.com/Suhaan-Bhandary/website-checker/utils"
 )
 
 func WebsitePostHandler(w http.ResponseWriter, r *http.Request) {
@@ -49,8 +48,7 @@ func WebsiteStatusGetHandler(w http.ResponseWriter, r *http.Request) {
 
 	// If website is not present return all website status
 	if website == "" {
-		websites := db.GetWebsites()
-		websiteStatusList := utils.GetAllWebsiteStatus(websites)
+		websiteStatusList := db.GetAllStatus()
 
 		w.WriteHeader(http.StatusOK)
 		json.NewEncoder(w).Encode(types.AllWebsiteStatusResponse{
@@ -68,13 +66,7 @@ func WebsiteStatusGetHandler(w http.ResponseWriter, r *http.Request) {
 	}
 
 	// Return specific status
-	websiteStatus, err := utils.GetWebsiteStatus(website)
-	if err != nil {
-		fmt.Println(err)
-		w.WriteHeader(http.StatusInternalServerError)
-		w.Write([]byte("Something went wrong."))
-		return
-	}
+	websiteStatus := db.GetWebsiteStatus(website)
 
 	w.WriteHeader(http.StatusOK)
 	json.NewEncoder(w).Encode(types.WebsiteStatusResponse{

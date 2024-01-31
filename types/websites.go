@@ -17,10 +17,10 @@ type WebsiteStatus struct {
 type WebsiteStatusResponse struct {
 	Message string `json:"message"`
 	Website string `json:"website"`
-	Status  string `json:"status"`
+	Status  Status `json:"status"`
 }
 
-type AllWebsiteStatus map[string]string
+type AllWebsiteStatus map[string]Status
 
 type AllWebsiteStatusResponse struct {
 	Message string           `json:"message"`

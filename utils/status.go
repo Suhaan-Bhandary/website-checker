@@ -4,17 +4,19 @@ import (
 	"fmt"
 	"net/http"
 	"sync"
+	"time"
 
 	"github.com/Suhaan-Bhandary/website-checker/types"
 )
 
 /*
-	Status: UP, DOWN, ERROR
+	Status: UP, DOWN, ERROR, NOT_FETCHED
 */
 
 const UP = "UP"
 const DOWN = "DOWN"
 const ERROR = "ERROR"
+const NOT_FETCHED = "NOT_FETCHED"
 
 func GetWebsiteStatus(website string) (string, error) {
 	// check if website is present or not
@@ -32,7 +34,7 @@ func GetWebsiteStatus(website string) (string, error) {
 }
 
 func GetAllWebsiteStatus(websites []string) types.AllWebsiteStatus {
-	statusMap := map[string]string{}
+	statusMap := map[string]types.Status{}
 
 	wg := sync.WaitGroup{}
 	wg.Add(len(websites))
@@ -47,7 +49,10 @@ func GetAllWebsiteStatus(websites []string) types.AllWebsiteStatus {
 				status = ERROR
 			}
 
-			statusMap[website] = status
+			statusMap[website] = types.Status{
+				Status:      status,
+				LastFetched: time.Now().Format("01-02-2006 15:04:05"),
+			}
 		}(website)
 	}
 

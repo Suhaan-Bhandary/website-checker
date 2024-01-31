@@ -1,10 +1,8 @@
 package db
 
-type DB struct {
-	websites map[string]struct{}
-}
+import "github.com/Suhaan-Bhandary/website-checker/types"
 
 // Creating a in-memory database
-var database = DB{
-	websites: map[string]struct{}{},
+var database = types.DB{
+	Websites: map[string]types.Status{},
 }
