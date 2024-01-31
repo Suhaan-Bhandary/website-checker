@@ -3,10 +3,6 @@ package utils
 import (
 	"fmt"
 	"net/http"
-	"sync"
-	"time"
-
-	"github.com/Suhaan-Bhandary/website-checker/types"
 )
 
 /*
@@ -31,32 +27,4 @@ func GetWebsiteStatus(website string) (string, error) {
 	}
 
 	return UP, nil
-}
-
-func GetAllWebsiteStatus(websites []string) types.AllWebsiteStatus {
-	statusMap := map[string]types.Status{}
-
-	wg := sync.WaitGroup{}
-	wg.Add(len(websites))
-
-	for _, website := range websites {
-		// creating a go routine
-		go func(website string) {
-			defer wg.Done()
-
-			status, err := GetWebsiteStatus(website)
-			if err != nil {
-				status = ERROR
-			}
-
-			statusMap[website] = types.Status{
-				Status:      status,
-				LastFetched: time.Now().Format("01-02-2006 15:04:05"),
-			}
-		}(website)
-	}
-
-	wg.Wait()
-
-	return statusMap
 }

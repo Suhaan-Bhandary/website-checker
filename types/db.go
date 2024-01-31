@@ -1,10 +1,13 @@
 package types
 
+import "sync"
+
 type Status struct {
 	Status      string
 	LastFetched string
 }
 
 type DB struct {
-	Websites map[string]Status
+	// [string]Status
+	Websites sync.Map
 }
