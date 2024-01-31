@@ -41,3 +41,8 @@ func DeleteWebsite(website string) error {
 
 	return nil
 }
+
+func IsWebsitePresent(website string) bool {
+	_, ok := database.websites[website]
+	return ok
+}

@@ -7,6 +7,7 @@ import (
 
 	"github.com/Suhaan-Bhandary/website-checker/db"
 	"github.com/Suhaan-Bhandary/website-checker/types"
+	"github.com/Suhaan-Bhandary/website-checker/utils"
 )
 
 func WebsitePostHandler(w http.ResponseWriter, r *http.Request) {
@@ -43,8 +44,43 @@ func WebsiteGetHandler(w http.ResponseWriter, _ *http.Request) {
 	})
 }
 
-func WebsiteStatusGetHandler(w http.ResponseWriter, _ *http.Request) {
-	w.Write([]byte("Website Status"))
+func WebsiteStatusGetHandler(w http.ResponseWriter, r *http.Request) {
+	website := r.URL.Query().Get("website")
+
+	// If website is not present return all website status
+	if website == "" {
+		websites := db.GetWebsites()
+		websiteStatusList := utils.GetAllWebsiteStatus(websites)
+
+		w.WriteHeader(http.StatusOK)
+		json.NewEncoder(w).Encode(types.AllWebsiteStatusResponse{
+			Message: "List of all website status.",
+			Status:  websiteStatusList,
+		})
+		return
+	}
+
+	if !db.IsWebsitePresent(website) {
+		fmt.Println("Website not found")
+		w.WriteHeader(http.StatusNotFound)
+		w.Write([]byte("Website not found in DB"))
+		return
+	}
+
+	// Return specific status
+	websiteStatus, err := utils.GetWebsiteStatus(website)
+	if err != nil {
+		fmt.Println(err)
+		w.WriteHeader(http.StatusInternalServerError)
+		w.Write([]byte("Something went wrong."))
+		return
+	}
+
+	w.WriteHeader(http.StatusOK)
+	json.NewEncoder(w).Encode(types.WebsiteStatusResponse{
+		Message: "Websites in DB",
+		Status:  websiteStatus,
+	})
 }
 
 func WebsiteRemoveHandler(w http.ResponseWriter, r *http.Request) {
