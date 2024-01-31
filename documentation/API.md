@@ -15,9 +15,9 @@
 ```
 
 ```http
-  GET /websites/status?url={link}
+  GET /websites/status?website={link}
 ```
 
 ```http
-  DELETE /websites?url={link}
+  DELETE /websites?website={link | all}
 ```
