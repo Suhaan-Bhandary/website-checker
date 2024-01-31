@@ -1,6 +1,8 @@
 package db
 
 import (
+	"errors"
+
 	"github.com/Suhaan-Bhandary/website-checker/utils"
 )
 
@@ -18,4 +20,24 @@ func GetWebsites() []string {
 	}
 
 	return websitesURL
+}
+
+func DeleteWebsite(website string) error {
+	if website == "all" {
+		// clearing the map
+		for key := range database.websites {
+			delete(database.websites, key)
+		}
+		return nil
+	}
+
+	_, ok := database.websites[website]
+	if !ok {
+		return errors.New("Website not found")
+	}
+
+	// Removing website from websites
+	delete(database.websites, website)
+
+	return nil
 }
