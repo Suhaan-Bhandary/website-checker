@@ -14,5 +14,10 @@ func main() {
 
 	// Listening to the server and assigning our custom router
 	router := routes.Router()
-	http.ListenAndServe(SERVER_ADDRESS, router)
+	err := http.ListenAndServe(SERVER_ADDRESS, router)
+
+	if err != nil {
+		fmt.Println(err)
+		return
+	}
 }
