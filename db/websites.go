@@ -10,3 +10,12 @@ func InsertWebsites(websites []string) {
 		database.websites[website] = struct{}{}
 	}
 }
+
+func GetWebsites() []string {
+	websitesURL := make([]string, 0, len(database.websites))
+	for website := range database.websites {
+		websitesURL = append(websitesURL, website)
+	}
+
+	return websitesURL
+}

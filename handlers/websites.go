@@ -34,7 +34,13 @@ func WebsitePostHandler(w http.ResponseWriter, r *http.Request) {
 }
 
 func WebsiteGetHandler(w http.ResponseWriter, _ *http.Request) {
-	w.Write([]byte("Website Get"))
+	websites := db.GetWebsites()
+
+	w.WriteHeader(http.StatusOK)
+	json.NewEncoder(w).Encode(types.WebsitesGetResponseBody{
+		Message:  "Websites in DB",
+		Websites: websites,
+	})
 }
 
 func WebsiteStatusGetHandler(w http.ResponseWriter, _ *http.Request) {
