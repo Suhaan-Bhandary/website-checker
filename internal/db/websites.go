@@ -4,15 +4,14 @@ import (
 	"errors"
 	"time"
 
-	"github.com/Suhaan-Bhandary/website-checker/types"
-	"github.com/Suhaan-Bhandary/website-checker/utils"
+	"github.com/Suhaan-Bhandary/website-checker/internal/pkg/helpers"
 )
 
 func InsertWebsites(websites []string) {
 	for _, website := range websites {
-		website := utils.CleanString(website)
-		database.Websites.Store(website, types.Status{
-			Status:      utils.NOT_FETCHED,
+		website := helpers.CleanString(website)
+		database.Websites.Store(website, WebsitesStatus{
+			Status:      helpers.NOT_FETCHED,
 			LastFetched: time.Now().Format("01-02-2006 15:04:05"),
 		})
 	}
@@ -29,23 +28,23 @@ func GetWebsites() []string {
 	return websitesURL
 }
 
-func GetWebsiteStatus(website string) types.Status {
+func GetWebsiteStatus(website string) WebsitesStatus {
 	status, ok := database.Websites.Load(website)
 	if !ok {
-		return types.Status{
-			Status:      utils.ERROR,
+		return WebsitesStatus{
+			Status:      helpers.ERROR,
 			LastFetched: time.Now().Format("01-02-2006 15:04:05"),
 		}
 	}
 
-	return status.(types.Status)
+	return status.(WebsitesStatus)
 }
 
-func GetAllStatus() types.AllWebsiteStatus {
-	status := types.AllWebsiteStatus{}
+func GetAllStatus() map[string]WebsitesStatus {
+	status := map[string]WebsitesStatus{}
 
 	database.Websites.Range(func(key any, value any) bool {
-		status[key.(string)] = value.(types.Status)
+		status[key.(string)] = value.(WebsitesStatus)
 		return true
 	})
 
@@ -82,12 +81,12 @@ func IsWebsitePresent(website string) bool {
 func UpdateAllWebsiteStatus() {
 	database.Websites.Range(func(key any, _ any) bool {
 		go func() {
-			status, err := utils.GetWebsiteStatus(key.(string))
+			status, err := helpers.GetWebsiteStatus(key.(string))
 			if err != nil {
-				status = utils.ERROR
+				status = helpers.ERROR
 			}
 
-			database.Websites.Store(key, types.Status{
+			database.Websites.Store(key, WebsitesStatus{
 				Status:      status,
 				LastFetched: time.Now().Format("01-02-2006 15:04:05"),
 			})

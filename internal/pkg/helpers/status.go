@@ -1,13 +1,9 @@
-package utils
+package helpers
 
 import (
 	"fmt"
 	"net/http"
 )
-
-/*
-	Status: UP, DOWN, ERROR, NOT_FETCHED
-*/
 
 const UP = "UP"
 const DOWN = "DOWN"
