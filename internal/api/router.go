@@ -11,10 +11,7 @@ func NewRouter(deps app.Dependencies) *mux.Router {
 	router := mux.NewRouter()
 
 	// Register routes
-	router.HandleFunc("/", func(w http.ResponseWriter,
-		r *http.Request) {
-		w.Write([]byte("Hello World"))
-	})
+	router.HandleFunc("/websites", AddWebsitesHandler(deps.WebsiteService)).Methods(http.MethodPost)
 
 	return router
 }
