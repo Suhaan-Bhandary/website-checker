@@ -9,6 +9,11 @@ type WebsitesStorer interface {
 	DeleteAllWebsites()
 
 	IsWebsitePresent(website string) bool
+
+	GetWebsiteStatus(website string) WebsitesStatus
+	GetAllWebsiteStatus() map[string]WebsitesStatus
+
+	UpdateAllWebsiteStatus()
 }
 
 const UP = "UP"

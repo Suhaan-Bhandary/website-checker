@@ -2,7 +2,7 @@ package app
 
 import (
 	"github.com/Suhaan-Bhandary/website-checker/internal/app/websites"
-	"github.com/Suhaan-Bhandary/website-checker/internal/db"
+	db "github.com/Suhaan-Bhandary/website-checker/internal/repository"
 	repository "github.com/Suhaan-Bhandary/website-checker/internal/repository/memorydb"
 )
 

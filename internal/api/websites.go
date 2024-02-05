@@ -72,3 +72,35 @@ func DeleteWebsiteHandler(websitesSvc websites.Service) func(w http.ResponseWrit
 		w.Write([]byte("Deleted website successfully"))
 	}
 }
+
+func GetWebsiteStatusHandler(websitesSvc websites.Service) func(w http.ResponseWriter, r *http.Request) {
+	return func(w http.ResponseWriter, r *http.Request) {
+		website := r.URL.Query().Get("website")
+
+		// If website is not present return all website status
+		if website == "" {
+			websiteStatusList := websitesSvc.GetAllStatus()
+
+			w.WriteHeader(http.StatusOK)
+			json.NewEncoder(w).Encode(dto.AllWebsiteStatusResponse{
+				Message: "List of all website status.",
+				Status:  websiteStatusList,
+			})
+			return
+		}
+
+		websiteStatus, err := websitesSvc.GetWebsiteStatus(website)
+		if err != nil {
+			fmt.Println(err.Error())
+			w.WriteHeader(http.StatusNotFound)
+			w.Write([]byte(err.Error()))
+			return
+		}
+
+		w.WriteHeader(http.StatusOK)
+		json.NewEncoder(w).Encode(dto.WebsiteStatusResponse{
+			Message: "Websites in DB",
+			Status:  websiteStatus,
+		})
+	}
+}

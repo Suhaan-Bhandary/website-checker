@@ -1,7 +1,8 @@
 package repository
 
 import (
-	"github.com/Suhaan-Bhandary/website-checker/internal/db"
+	"time"
+
 	"github.com/Suhaan-Bhandary/website-checker/internal/pkg/helpers"
 	"github.com/Suhaan-Bhandary/website-checker/internal/repository"
 )
@@ -9,10 +10,10 @@ import (
 // A struct to define methods on it
 // Since in memory db is a dependency for our repository methods we store it in our struct
 type websitesStore struct {
-	DB *db.DB
+	DB *repository.DB
 }
 
-func NewWebsiteRepo(DB *db.DB) repository.WebsitesStorer {
+func NewWebsiteRepo(DB *repository.DB) repository.WebsitesStorer {
 	return &websitesStore{
 		DB: DB,
 	}
@@ -51,4 +52,45 @@ func (repo *websitesStore) DeleteAllWebsites() {
 func (repo *websitesStore) IsWebsitePresent(website string) bool {
 	_, ok := repo.DB.Websites.Load(website)
 	return ok
+}
+
+func (repo *websitesStore) GetWebsiteStatus(website string) repository.WebsitesStatus {
+	status, ok := repo.DB.Websites.Load(website)
+	if !ok {
+		return repository.WebsitesStatus{
+			Status:      helpers.ERROR,
+			LastFetched: time.Now().Format("01-02-2006 15:04:05"),
+		}
+	}
+
+	return status.(repository.WebsitesStatus)
+}
+
+func (repo *websitesStore) GetAllWebsiteStatus() map[string]repository.WebsitesStatus {
+	status := map[string]repository.WebsitesStatus{}
+
+	repo.DB.Websites.Range(func(key any, value any) bool {
+		status[key.(string)] = value.(repository.WebsitesStatus)
+		return true
+	})
+
+	return status
+}
+
+func (repo *websitesStore) UpdateAllWebsiteStatus() {
+	repo.DB.Websites.Range(func(key any, _ any) bool {
+		go func() {
+			status, err := helpers.GetWebsiteStatus(key.(string))
+			if err != nil {
+				status = helpers.ERROR
+			}
+
+			repo.DB.Websites.Store(key, repository.WebsitesStatus{
+				Status:      status,
+				LastFetched: time.Now().Format("01-02-2006 15:04:05"),
+			})
+		}()
+
+		return true
+	})
 }
