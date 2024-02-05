@@ -13,6 +13,7 @@ func NewRouter(deps app.Dependencies) *mux.Router {
 	// Register routes
 	router.HandleFunc("/websites", AddWebsitesHandler(deps.WebsiteService)).Methods(http.MethodPost)
 	router.HandleFunc("/websites", GetWebsitesHandler(deps.WebsiteService)).Methods(http.MethodGet)
+	router.HandleFunc("/websites", DeleteWebsiteHandler(deps.WebsiteService)).Methods(http.MethodDelete)
 
 	return router
 }

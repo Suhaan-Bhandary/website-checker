@@ -4,6 +4,11 @@ package repository
 type WebsitesStorer interface {
 	InsertWebsite(websites string)
 	GetWebsites() []string
+
+	DeleteWebsite(website string)
+	DeleteAllWebsites()
+
+	IsWebsitePresent(website string) bool
 }
 
 const UP = "UP"

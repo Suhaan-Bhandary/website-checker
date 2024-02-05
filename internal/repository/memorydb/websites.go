@@ -35,3 +35,20 @@ func (repo *websitesStore) GetWebsites() []string {
 
 	return websitesURL
 }
+
+func (repo *websitesStore) DeleteWebsite(website string) {
+	repo.DB.Websites.Delete(website)
+}
+
+func (repo *websitesStore) DeleteAllWebsites() {
+	// clearing the map
+	repo.DB.Websites.Range(func(key any, _ any) bool {
+		repo.DB.Websites.Delete(key)
+		return true
+	})
+}
+
+func (repo *websitesStore) IsWebsitePresent(website string) bool {
+	_, ok := repo.DB.Websites.Load(website)
+	return ok
+}

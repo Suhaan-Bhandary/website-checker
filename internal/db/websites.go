@@ -1,7 +1,6 @@
 package db
 
 import (
-	"errors"
 	"time"
 
 	"github.com/Suhaan-Bhandary/website-checker/internal/pkg/helpers"
@@ -28,33 +27,6 @@ func GetAllStatus() map[string]WebsitesStatus {
 	})
 
 	return status
-}
-
-func DeleteWebsite(website string) error {
-	if website == "all" {
-		// clearing the map
-		database.Websites.Range(func(key any, _ any) bool {
-			database.Websites.Delete(key)
-			return true
-		})
-
-		return nil
-	}
-
-	_, ok := database.Websites.Load(website)
-	if !ok {
-		return errors.New("Website not found")
-	}
-
-	// Removing website from websites
-	database.Websites.Delete(website)
-
-	return nil
-}
-
-func IsWebsitePresent(website string) bool {
-	_, ok := database.Websites.Load(website)
-	return ok
 }
 
 func UpdateAllWebsiteStatus() {

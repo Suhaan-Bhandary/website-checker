@@ -38,7 +38,7 @@ func AddWebsitesHandler(websitesSvc websites.Service) func(w http.ResponseWriter
 }
 
 func GetWebsitesHandler(websitesSvc websites.Service) func(w http.ResponseWriter, r *http.Request) {
-	return func(w http.ResponseWriter, r *http.Request) {
+	return func(w http.ResponseWriter, _ *http.Request) {
 		// get website
 		websites := websitesSvc.GetWebsites()
 
@@ -47,5 +47,28 @@ func GetWebsitesHandler(websitesSvc websites.Service) func(w http.ResponseWriter
 			Message:  "Websites in DB",
 			Websites: websites,
 		})
+	}
+}
+
+func DeleteWebsiteHandler(websitesSvc websites.Service) func(w http.ResponseWriter, r *http.Request) {
+	return func(w http.ResponseWriter, r *http.Request) {
+		website := r.URL.Query().Get("website")
+		if website == "" {
+			fmt.Println("Please provide website / all in URL Query")
+			w.WriteHeader(http.StatusBadRequest)
+			w.Write([]byte("Please provide website / all in URL Query"))
+			return
+		}
+
+		err := websitesSvc.DeleteWebsite(website)
+		if err != nil {
+			fmt.Println(err)
+			w.WriteHeader(http.StatusNotFound)
+			w.Write([]byte(err.Error()))
+			return
+		}
+
+		w.WriteHeader(http.StatusOK)
+		w.Write([]byte("Deleted website successfully"))
 	}
 }
