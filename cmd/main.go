@@ -10,7 +10,7 @@ import (
 	"github.com/Suhaan-Bhandary/website-checker/internal/repository"
 )
 
-const SERVER_ADDRESS = "127.0.0.1:8080"
+const SERVER_ADDRESS = "127.0.0.1:3000"
 
 func main() {
 	context := context.Background()
