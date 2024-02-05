@@ -1,6 +1,7 @@
 package main
 
 import (
+	"context"
 	"fmt"
 	"net/http"
 
@@ -12,6 +13,8 @@ import (
 const SERVER_ADDRESS = "127.0.0.1:8080"
 
 func main() {
+	context := context.Background()
+
 	fmt.Println("Starting Website Checker Server...")
 	defer fmt.Println("Shutting Down Website Checker Server...")
 
@@ -25,7 +28,7 @@ func main() {
 	router := api.NewRouter(services)
 
 	// Fetch details
-	go services.WebsiteService.StatusUpdateBackgroundJob()
+	go services.WebsiteService.StatusUpdateBackgroundJob(context)
 
 	// Listening to the server and assigning our custom router
 	err := http.ListenAndServe(SERVER_ADDRESS, router)

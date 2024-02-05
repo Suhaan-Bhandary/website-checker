@@ -1,6 +1,7 @@
 package websites
 
 import (
+	"context"
 	"errors"
 	"time"
 
@@ -22,7 +23,7 @@ type Service interface {
 	GetAllStatus() map[string]repository.WebsitesStatus
 	GetWebsiteStatus(website string) (repository.WebsitesStatus, error)
 
-	StatusUpdateBackgroundJob()
+	StatusUpdateBackgroundJob(ctx context.Context)
 }
 
 func NewService(websitesRepo repository.WebsitesStorer) Service {
@@ -69,7 +70,7 @@ func (os *service) GetWebsiteStatus(website string) (repository.WebsitesStatus, 
 	return websiteStatus, nil
 }
 
-func (os *service) StatusUpdateBackgroundJob() {
+func (os *service) StatusUpdateBackgroundJob(ctx context.Context) {
 	for {
 		os.websitesRepo.UpdateAllWebsiteStatus()
 		time.Sleep(time.Minute)
