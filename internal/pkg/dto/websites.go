@@ -12,3 +12,8 @@ func (req *AddWebsiteRequest) Validate() error {
 	}
 	return nil
 }
+
+type GetWebsitesResponse struct {
+	Message  string
+	Websites []string
+}

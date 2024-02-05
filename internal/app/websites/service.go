@@ -13,6 +13,7 @@ type service struct {
 // All the functions exposed to handler
 type Service interface {
 	InsertWebsites(websites []string)
+	GetWebsites() []string
 }
 
 func NewService(websitesRepo repository.WebsitesStorer) Service {
@@ -26,4 +27,8 @@ func (os *service) InsertWebsites(websites []string) {
 		website := helpers.CleanString(website)
 		os.websitesRepo.InsertWebsite(website)
 	}
+}
+
+func (os *service) GetWebsites() []string {
+	return os.websitesRepo.GetWebsites()
 }

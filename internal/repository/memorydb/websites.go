@@ -24,3 +24,14 @@ func (repo *websitesStore) InsertWebsite(website string) {
 		LastFetched: helpers.GetCurrentTimeFormated(),
 	})
 }
+
+func (repo *websitesStore) GetWebsites() []string {
+	websitesURL := make([]string, 0)
+
+	repo.DB.Websites.Range(func(key any, _ any) bool {
+		websitesURL = append(websitesURL, key.(string))
+		return true
+	})
+
+	return websitesURL
+}

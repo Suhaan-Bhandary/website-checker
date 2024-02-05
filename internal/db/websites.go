@@ -7,27 +7,6 @@ import (
 	"github.com/Suhaan-Bhandary/website-checker/internal/pkg/helpers"
 )
 
-func InsertWebsites(websites []string) {
-	for _, website := range websites {
-		website := helpers.CleanString(website)
-		database.Websites.Store(website, WebsitesStatus{
-			Status:      helpers.NOT_FETCHED,
-			LastFetched: time.Now().Format("01-02-2006 15:04:05"),
-		})
-	}
-}
-
-func GetWebsites() []string {
-	websitesURL := make([]string, 0)
-
-	database.Websites.Range(func(key any, _ any) bool {
-		websitesURL = append(websitesURL, key.(string))
-		return true
-	})
-
-	return websitesURL
-}
-
 func GetWebsiteStatus(website string) WebsitesStatus {
 	status, ok := database.Websites.Load(website)
 	if !ok {

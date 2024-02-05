@@ -36,3 +36,16 @@ func AddWebsitesHandler(websitesSvc websites.Service) func(w http.ResponseWriter
 		w.Write([]byte("Registered the given websites"))
 	}
 }
+
+func GetWebsitesHandler(websitesSvc websites.Service) func(w http.ResponseWriter, r *http.Request) {
+	return func(w http.ResponseWriter, r *http.Request) {
+		// get website
+		websites := websitesSvc.GetWebsites()
+
+		w.WriteHeader(http.StatusOK)
+		json.NewEncoder(w).Encode(dto.GetWebsitesResponse{
+			Message:  "Websites in DB",
+			Websites: websites,
+		})
+	}
+}

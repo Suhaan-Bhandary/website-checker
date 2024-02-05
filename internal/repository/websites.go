@@ -3,6 +3,7 @@ package repository
 // A interface which defines all the function of websites
 type WebsitesStorer interface {
 	InsertWebsite(websites string)
+	GetWebsites() []string
 }
 
 const UP = "UP"
