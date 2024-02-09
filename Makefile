@@ -6,3 +6,6 @@ test: ## Run all unit tests in the project
 
 test-cover: ## Run all unit tests in the project with test coverage
 	go test -v ./... -covermode=count -coverprofile=coverage.out
+
+html-cover: test-cover
+	go tool cover -html="coverage.out"

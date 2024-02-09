@@ -1,0 +1,22 @@
+mode: count
+github.com/Suhaan-Bhandary/website-checker/internal/api/router.go:10.51,20.2 6 0
+github.com/Suhaan-Bhandary/website-checker/internal/api/websites.go:12.100,13.54 1 1
+github.com/Suhaan-Bhandary/website-checker/internal/api/websites.go:13.54,18.17 3 3
+github.com/Suhaan-Bhandary/website-checker/internal/api/websites.go:18.17,23.4 4 1
+github.com/Suhaan-Bhandary/website-checker/internal/api/websites.go:25.3,26.17 2 2
+github.com/Suhaan-Bhandary/website-checker/internal/api/websites.go:26.17,31.4 4 1
+github.com/Suhaan-Bhandary/website-checker/internal/api/websites.go:33.3,36.51 3 1
+github.com/Suhaan-Bhandary/website-checker/internal/api/websites.go:40.100,41.54 1 1
+github.com/Suhaan-Bhandary/website-checker/internal/api/websites.go:41.54,50.3 3 1
+github.com/Suhaan-Bhandary/website-checker/internal/api/websites.go:53.102,54.54 1 1
+github.com/Suhaan-Bhandary/website-checker/internal/api/websites.go:54.54,56.20 2 3
+github.com/Suhaan-Bhandary/website-checker/internal/api/websites.go:56.20,61.4 4 1
+github.com/Suhaan-Bhandary/website-checker/internal/api/websites.go:63.3,64.17 2 2
+github.com/Suhaan-Bhandary/website-checker/internal/api/websites.go:64.17,69.4 4 1
+github.com/Suhaan-Bhandary/website-checker/internal/api/websites.go:71.3,72.50 2 1
+github.com/Suhaan-Bhandary/website-checker/internal/api/websites.go:76.105,77.54 1 1
+github.com/Suhaan-Bhandary/website-checker/internal/api/websites.go:77.54,81.20 2 3
+github.com/Suhaan-Bhandary/website-checker/internal/api/websites.go:81.20,90.4 4 1
+github.com/Suhaan-Bhandary/website-checker/internal/api/websites.go:92.3,93.17 2 2
+github.com/Suhaan-Bhandary/website-checker/internal/api/websites.go:93.17,98.4 4 1
+github.com/Suhaan-Bhandary/website-checker/internal/api/websites.go:100.3,104.5 2 1
